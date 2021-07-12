@@ -1,5 +1,5 @@
 # LOLConfigChanger
-롤 설정 /불러오기 프로그램<br><br>
+롤 설정 백업/불러오기 프로그램<br><br>
 ![image](https://user-images.githubusercontent.com/48248884/125250302-08794500-e331-11eb-9b7e-c489003dbb53.png)
 
 ## 사용법
