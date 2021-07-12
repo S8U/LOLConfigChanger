@@ -1,6 +1,6 @@
 ﻿namespace LOLConfigChanger
 {
-    partial class frmMain
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,8 +30,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.btnSave = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.btnBackup = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.txtClientPath = new System.Windows.Forms.TextBox();
             this.btnSelectPath = new System.Windows.Forms.Button();
@@ -41,18 +41,19 @@
             this.cmsTray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkAutoLoad = new System.Windows.Forms.CheckBox();
             this.cmsTray.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnSave
+            // btnBackup
             // 
-            this.btnSave.Location = new System.Drawing.Point(12, 43);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(184, 30);
-            this.btnSave.TabIndex = 0;
-            this.btnSave.Text = "현재 설정 저장";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnBackup.Location = new System.Drawing.Point(12, 43);
+            this.btnBackup.Name = "btnBackup";
+            this.btnBackup.Size = new System.Drawing.Size(184, 30);
+            this.btnBackup.TabIndex = 0;
+            this.btnBackup.Text = "현재 설정 백업";
+            this.btnBackup.UseVisualStyleBackColor = true;
+            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
             // 
             // btnLoad
             // 
@@ -73,9 +74,9 @@
             // 
             // btnSelectPath
             // 
-            this.btnSelectPath.Location = new System.Drawing.Point(348, 12);
+            this.btnSelectPath.Location = new System.Drawing.Point(344, 12);
             this.btnSelectPath.Name = "btnSelectPath";
-            this.btnSelectPath.Size = new System.Drawing.Size(39, 25);
+            this.btnSelectPath.Size = new System.Drawing.Size(43, 25);
             this.btnSelectPath.TabIndex = 3;
             this.btnSelectPath.Text = "...";
             this.btnSelectPath.UseVisualStyleBackColor = true;
@@ -83,7 +84,7 @@
             // 
             // chkStart
             // 
-            this.chkStart.Location = new System.Drawing.Point(12, 79);
+            this.chkStart.Location = new System.Drawing.Point(12, 101);
             this.chkStart.Name = "chkStart";
             this.chkStart.Size = new System.Drawing.Size(174, 24);
             this.chkStart.TabIndex = 4;
@@ -128,24 +129,35 @@
             this.tsmiExit.Text = "종료";
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
-            // frmMain
+            // chkAutoLoad
+            // 
+            this.chkAutoLoad.Location = new System.Drawing.Point(12, 79);
+            this.chkAutoLoad.Name = "chkAutoLoad";
+            this.chkAutoLoad.Size = new System.Drawing.Size(280, 24);
+            this.chkAutoLoad.TabIndex = 6;
+            this.chkAutoLoad.Text = "롤 실행 시 자동으로 설정 불러오기";
+            this.chkAutoLoad.UseVisualStyleBackColor = true;
+            this.chkAutoLoad.CheckedChanged += new System.EventHandler(this.chkAutoLoad_CheckedChanged);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(400, 113);
+            this.ClientSize = new System.Drawing.Size(400, 137);
+            this.Controls.Add(this.chkAutoLoad);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.chkStart);
             this.Controls.Add(this.btnSelectPath);
             this.Controls.Add(this.txtClientPath);
             this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnBackup);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(15, 15);
             this.MaximizeBox = false;
-            this.Name = "frmMain";
+            this.Name = "MainForm";
             this.Text = "LOLConfigChanger";
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.cmsTray.ResumeLayout(false);
@@ -153,9 +165,13 @@
             this.PerformLayout();
         }
 
+        private System.Windows.Forms.Button btnBackup;
+
+        public System.Windows.Forms.CheckBox chkAutoLoad;
+
         private System.Windows.Forms.ContextMenuStrip cmsTray;
 
-        private System.Windows.Forms.NotifyIcon icnTray;
+        public System.Windows.Forms.NotifyIcon icnTray;
 
         private System.Windows.Forms.ToolStripMenuItem tsmiOpen;
         private System.Windows.Forms.ToolStripMenuItem tsmiExit;
@@ -170,7 +186,7 @@
 
         private System.Windows.Forms.CheckBox chkStart;
 
-        private System.Windows.Forms.TextBox txtClientPath;
+        public System.Windows.Forms.TextBox txtClientPath;
         private System.Windows.Forms.Button btnSelectPath;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
