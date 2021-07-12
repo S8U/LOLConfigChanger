@@ -7,17 +7,18 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace LOLConfigChanger
 {
-    public partial class frmMain : Form
+    public partial class MainForm : Form
     {
-        private string clientPath;
 
-        private string[] configFileNames = {"game.cfg", "PersistedSettings.json"};
+        public static MainForm Instance;
 
         private string regProgramName = "LOLConfigChanger";
         private string regStartUpPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
-        public frmMain()
+        public MainForm()
         {
+            Instance = this;
+            
             InitializeComponent();
 
             /* Find League of Lengends folder */
@@ -26,18 +27,14 @@ namespace LOLConfigChanger
                 string path = driveInfo.Name + "Riot Games\\League of Legends";
                 if (File.Exists(path + "\\LeagueClient.exe"))
                 {
-                    clientPath = path;
+                    txtClientPath.Text = path;
                     break;
                 }
             }
 
-            if (clientPath == null)
+            if (txtClientPath.Text.Length < 1)
             {
                 MessageBox.Show("롤 경로를 찾을 수 없습니다.");
-            }
-            else
-            {
-                txtClientPath.Text = clientPath;
             }
 
             /* Check startup registry */
@@ -51,6 +48,9 @@ namespace LOLConfigChanger
                 ShowInTaskbar = false;
                 Visible = false;
             }
+            
+            /* Start auto load task */
+            chkAutoLoad.Checked = Properties.Settings.Default.autoLoad;
         }
 
         private void frmMain_Resize(object sender, EventArgs e)
@@ -68,54 +68,33 @@ namespace LOLConfigChanger
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                clientPath = dialog.FileName;
-                txtClientPath.Text = clientPath;
+                txtClientPath.Text = dialog.FileName;
             }
         }
 
         /* Save and load League of Legends config */
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnBackup_Click(object sender, EventArgs e)
         {
-            string configFolder = Application.StartupPath + "\\config";
-            if (!Directory.Exists(configFolder))
+            if (ConfigManager.Backup())
             {
-                Directory.CreateDirectory(configFolder);
+                MessageBox.Show("현재 설정을 백업했습니다.");
             }
-
-            foreach (string configFileName in configFileNames)
+            else
             {
-                string path = clientPath + "\\Config\\" + configFileName;
-                if (File.Exists(path))
-                {
-                    File.Copy(path, Application.StartupPath + "\\config\\" + configFileName, true);
-                }
-                else
-                {
-                    MessageBox.Show("설정 파일을 찾을 수 없습니다.");
-                    return;
-                }
+                MessageBox.Show("설정 파일을 찾을 수 없습니다.");
             }
-
-            MessageBox.Show("현재 설정을 저장했습니다.");
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            foreach (string configFileName in configFileNames)
+            if (ConfigManager.Load())
             {
-                string path = Application.StartupPath + "\\config\\" + configFileName;
-                if (File.Exists(path))
-                {
-                    File.Copy(path, clientPath + "\\Config\\" + configFileName, true);
-                }
-                else
-                {
-                    MessageBox.Show("설정 파일을 찾을 수 없습니다.");
-                    return;
-                }
+                MessageBox.Show("설정을 불러왔습니다.");
             }
-
-            MessageBox.Show("설정을 불러왔습니다.");
+            else
+            {
+                MessageBox.Show("설정 파일을 찾을 수 없습니다.");
+            }
         }
 
         /* Startup config */
@@ -150,6 +129,18 @@ namespace LOLConfigChanger
         private void tsmiExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        /* Auto load config */
+        private void chkAutoLoad_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.autoLoad = chkAutoLoad.Checked;
+            Properties.Settings.Default.Save();
+            
+            if (chkAutoLoad.Checked)
+            {
+                ClientDetector.Start();
+            }
         }
     }
 }
