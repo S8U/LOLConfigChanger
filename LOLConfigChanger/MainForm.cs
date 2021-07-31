@@ -46,11 +46,19 @@ namespace LOLConfigChanger
             {
                 WindowState = FormWindowState.Minimized;
                 ShowInTaskbar = false;
-                Visible = false;
             }
             
             /* Start auto load task */
             chkAutoLoad.Checked = Properties.Settings.Default.autoLoad;
+        }
+        
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            /* Tray */
+            if (Environment.GetCommandLineArgs().Contains("/background"))
+            {
+                Visible = false;
+            }
         }
 
         private void frmMain_Resize(object sender, EventArgs e)
@@ -142,5 +150,6 @@ namespace LOLConfigChanger
                 ClientDetector.Start();
             }
         }
+
     }
 }

@@ -159,6 +159,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "LOLConfigChanger";
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.cmsTray.ResumeLayout(false);
             this.ResumeLayout(false);
